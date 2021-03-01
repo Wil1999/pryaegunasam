@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Institucion;
+import com.flores.model.dto.InstitucionDto;
 import com.flores.repository.InstitucionRepository;
 
 @RestController
@@ -34,12 +35,15 @@ public class InstitucionController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Institucion create(@RequestBody Institucion institucion) {
-		return institucionRepository.save(institucion);
+	private Institucion create(@RequestBody InstitucionDto institucion) {
+		Institucion institucionNow = new Institucion();
+		institucionNow.setRuc(institucion.getRuc());
+		institucionNow.setDescripcion(institucion.getDescripcion());
+		return institucionRepository.save(institucionNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Institucion update(@RequestBody Institucion institucion,@PathVariable int id) {
+	private Institucion update(@RequestBody InstitucionDto institucion,@PathVariable int id) {
 		Institucion institucionNow = institucionRepository.findById(id).orElse(null);
 		institucionNow.setRuc(institucion.getRuc());
 		institucionNow.setDescripcion(institucion.getDescripcion());

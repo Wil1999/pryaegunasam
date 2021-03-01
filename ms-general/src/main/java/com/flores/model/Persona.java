@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ExcludeDefaultListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.flores.feign.models.Asociado;
 import com.flores.feign.models.DatoAcademico;
@@ -23,28 +23,10 @@ import com.flores.feign.models.Inscripcion;
 import com.flores.feign.models.Instructor;
 import com.flores.feign.models.Usuario;
 
-import net.bytebuddy.build.ToStringPlugin.Exclude;
 
 @Entity
 @Table(name="persona", schema="general")
 public class Persona {
-	@Transient
-	private List<Usuario> usuario;
-	
-	@Transient
-	private List<DatoLaboral> datoLaboral;
-	
-	@Transient
-	private List<DatoAcademico> datoAcademico;
-	
-	@Transient
-	private List<Asociado> asociado;
-	
-	@Transient
-	private List<Inscripcion> inscripcion;
-	
-	@Transient
-	private List<Instructor> instructor;
 
 	public Persona() {
 		// TODO Auto-generated constructor stub
@@ -69,21 +51,47 @@ public class Persona {
 	@Column(name="fecha_nacimiento")
 	private Date fechaNacimiento;
 	
+	@Column(name="id_ubgdis_lugar_nac")
+	private int ubigeoDistritoNacId;
+	
+	@Column(name="id_ubgdis_domicilio")
+	private int ubigeoDistritoDomId;
+	
 	@ManyToOne()
 	@JsonManagedReference
-	@JoinColumn(name="id_ubgdis_lugar_nac")
+	@JoinColumn(name="id_ubgdis_lugar_nac", insertable = false, updatable= false)
 	private UbigeoDistrito ubigeoDistritoNac;
 	
 	@ManyToOne()
 	@JsonManagedReference
-	@JoinColumn(name="id_ubgdis_domicilio")
+	@JoinColumn(name="id_ubgdis_domicilio", insertable = false, updatable = false)
 	private UbigeoDistrito ubigeoDistritoDom;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "persona")
 	private List<Telefono> telefono;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "persona")
 	private List<Correo> correo;
+	
+	@Transient
+	private List<Usuario> usuario;
+	
+	@Transient
+	private List<DatoLaboral> datoLaboral;
+	
+	@Transient
+	private List<DatoAcademico> datoAcademico;
+	
+	@Transient
+	private List<Asociado> asociado;
+	
+	@Transient
+	private List<Inscripcion> inscripcion;
+	
+	@Transient
+	private List<Instructor> instructor;
 
 	public List<Telefono> getTelefono() {
 		return telefono;
@@ -219,6 +227,22 @@ public class Persona {
 
 	public void setInstructor(List<Instructor> instructor) {
 		this.instructor = instructor;
+	}
+
+	public int getUbigeoDistritoNacId() {
+		return ubigeoDistritoNacId;
+	}
+
+	public void setUbigeoDistritoNacId(int ubigeoDistritoNacId) {
+		this.ubigeoDistritoNacId = ubigeoDistritoNacId;
+	}
+
+	public int getUbigeoDistritoDomId() {
+		return ubigeoDistritoDomId;
+	}
+
+	public void setUbigeoDistritoDomId(int ubigeoDistritoDomId) {
+		this.ubigeoDistritoDomId = ubigeoDistritoDomId;
 	}
 	
 }

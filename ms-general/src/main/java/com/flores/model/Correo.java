@@ -29,14 +29,20 @@ public class Correo {
 	@Column(name="usuario_id")
 	private int usuarioId;
 	
+	@Column(name="id_tipo_correo")
+	private int tipoCorreoId;
+	
+	@Column(name="id_persona")
+	private int personaId;
+	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_tipo_correo")
+	@JoinColumn(name="id_tipo_correo", insertable = false, updatable = false)
 	private TipoCorreo tipoCorreo;
 	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_persona")
+	@JoinColumn(name="id_persona", insertable = false, updatable = false)
 	private Persona persona;
 
 	public TipoCorreo getTipoCorreo() {
@@ -70,6 +76,21 @@ public class Correo {
 	public void setUsuarioId(int usuarioId) {
 		this.usuarioId = usuarioId;
 	}
-	
+
+	public int getTipoCorreoId() {
+		return tipoCorreoId;
+	}
+
+	public void setTipoCorreoId(int tipoCorreoId) {
+		this.tipoCorreoId = tipoCorreoId;
+	}
+
+	public int getPersonaId() {
+		return personaId;
+	}
+
+	public void setPersonaId(int personaId) {
+		this.personaId = personaId;
+	}
 	
 }

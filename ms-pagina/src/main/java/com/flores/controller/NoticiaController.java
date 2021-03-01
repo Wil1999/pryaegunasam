@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Noticia;
+import com.flores.model.dto.NoticiaDto;
 import com.flores.repository.NoticiaRepository;
 
 @RestController
@@ -34,22 +35,32 @@ public class NoticiaController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Noticia create(@RequestBody Noticia noticia) {
+	private Noticia create(@RequestBody NoticiaDto noticiaDto) {
+		Noticia noticia = new Noticia();
+		noticia.setTitulo(noticiaDto.getTitulo());
+		noticia.setDescripcion(noticiaDto.getDescripcion());
+		noticia.setEstado(noticiaDto.isEstado());
+		noticia.setFechaPublicacion(noticiaDto.getFechaPublicacion());
+		noticia.setAutor(noticiaDto.getAutor());
+		noticia.setCreatedAt(noticiaDto.getCreatedAt());
+		noticia.setUpdatedAt(noticiaDto.getUpdatedAt());
+		noticia.setUsuarioId(noticiaDto.getUsuarioId());
+		noticia.setRemove(noticiaDto.isRemove());
 		return noticiaRepository.save(noticia);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Noticia update(@RequestBody Noticia noticia,@PathVariable int id) {
+	private Noticia update(@RequestBody NoticiaDto noticiaDto,@PathVariable int id) {
 		Noticia noticiaNow = noticiaRepository.findById(id).orElse(null);
-		noticiaNow.setTitulo(noticia.getTitulo());
-		noticiaNow.setHtml(noticia.getHtml());
-		noticiaNow.setEstado(noticia.isEstado());
-		noticiaNow.setFechaPublicacion(noticia.getFechaPublicacion());
-		noticiaNow.setAutor(noticia.getAutor());
-		noticiaNow.setCreatedAt(noticia.getCreatedAt());
-		noticiaNow.setUpdatedAt(noticia.getUpdatedAt());
-		noticiaNow.setUsuarioId(noticia.getUsuarioId());
-		noticiaNow.setRemove(noticia.isRemove());
+		noticiaNow.setTitulo(noticiaDto.getTitulo());
+		noticiaNow.setDescripcion(noticiaDto.getDescripcion());
+		noticiaNow.setEstado(noticiaDto.isEstado());
+		noticiaNow.setFechaPublicacion(noticiaDto.getFechaPublicacion());
+		noticiaNow.setAutor(noticiaDto.getAutor());
+		noticiaNow.setCreatedAt(noticiaDto.getCreatedAt());
+		noticiaNow.setUpdatedAt(noticiaDto.getUpdatedAt());
+		noticiaNow.setUsuarioId(noticiaDto.getUsuarioId());
+		noticiaNow.setRemove(noticiaDto.isRemove());
 		
 		return noticiaRepository.save(noticiaNow);
 	}

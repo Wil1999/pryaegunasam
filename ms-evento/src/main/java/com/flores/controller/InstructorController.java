@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Instructor;
+import com.flores.model.dto.InstructorDto;
 import com.flores.repository.InstructorRepository;
 
 @RestController
@@ -39,14 +40,16 @@ public class InstructorController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Instructor create(@RequestBody Instructor instructor) {
-		return instructorRepository.save(instructor);
+	private Instructor create(@RequestBody InstructorDto instructor) {
+		Instructor instructorNow = new Instructor();
+		instructorNow.setIdPersona(instructor.getIdPersona());
+		return instructorRepository.save(instructorNow);
 	}
 	
 	@PutMapping(path ="/{id}")
 	private Instructor update(@RequestBody Instructor instructor,@PathVariable int id) {
 		Instructor instructorNow = instructorRepository.findById(id).orElse(null);
-		
+		instructorNow.setIdPersona(instructor.getIdPersona());
 		return instructorRepository.save(instructorNow);
 	}
 	

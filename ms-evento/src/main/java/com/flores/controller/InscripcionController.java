@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Inscripcion;
+import com.flores.model.dto.InscripcionDto;
 import com.flores.repository.InscripcionRepository;
 
 @RestController
@@ -39,20 +40,32 @@ public class InscripcionController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Inscripcion create(@RequestBody Inscripcion inscripcion) {
-		return inscripcionRepository.save(inscripcion);
-	}
-	
-	@PutMapping(path ="/{id}")
-	private Inscripcion update(@RequestBody Inscripcion inscripcion,@PathVariable int id) {
-		Inscripcion inscripcionNow = inscripcionRepository.findById(id).orElse(null);
+	private Inscripcion create(@RequestBody InscripcionDto inscripcion) {
+		Inscripcion inscripcionNow = new Inscripcion();
 		inscripcionNow.setFlagEntregaCertificado(inscripcion.isFlagEntregaCertificado());
-		inscripcionNow.setEvento(inscripcion.getEvento());
+		inscripcionNow.setEventoId(inscripcion.getEventoId());
 		inscripcionNow.setRemove(inscripcion.isRemove());
 		inscripcionNow.setNota(inscripcion.getNota());
 		inscripcionNow.setRecordAsistencia(inscripcion.getRecordAsistencia());
 		inscripcionNow.setFechaRegistro(inscripcion.getFechaRegistro());
-		inscripcionNow.setUsuarioId(inscripcion.getUsuarioId());		
+		inscripcionNow.setUsuarioId(inscripcion.getUsuarioId());
+		inscripcionNow.setPersonaId(inscripcion.getPersonaId());
+		inscripcionNow.setIdSituacionInsc(inscripcion.getIdSituacionInsc());
+		return inscripcionRepository.save(inscripcionNow);
+	}
+	
+	@PutMapping(path ="/{id}")
+	private Inscripcion update(@RequestBody InscripcionDto inscripcion,@PathVariable int id) {
+		Inscripcion inscripcionNow = inscripcionRepository.findById(id).orElse(null);
+		inscripcionNow.setFlagEntregaCertificado(inscripcion.isFlagEntregaCertificado());
+		inscripcionNow.setEventoId(inscripcion.getEventoId());
+		inscripcionNow.setRemove(inscripcion.isRemove());
+		inscripcionNow.setNota(inscripcion.getNota());
+		inscripcionNow.setRecordAsistencia(inscripcion.getRecordAsistencia());
+		inscripcionNow.setFechaRegistro(inscripcion.getFechaRegistro());
+		inscripcionNow.setUsuarioId(inscripcion.getUsuarioId());
+		inscripcionNow.setPersonaId(inscripcion.getPersonaId());
+		inscripcionNow.setIdSituacionInsc(inscripcion.getIdSituacionInsc());
 		return inscripcionRepository.save(inscripcionNow);
 	}
 	

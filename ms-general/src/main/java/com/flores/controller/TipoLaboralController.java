@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flores.feign.clients.DatoLaboralClientRest;
 import com.flores.feign.models.DatoLaboral;
 import com.flores.model.TipoLaboral;
+import com.flores.model.dto.TipoLaboralDto;
 import com.flores.repository.TipoLaboralRepository;
 
 @RestController
@@ -52,12 +53,14 @@ public class TipoLaboralController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private TipoLaboral create(@RequestBody TipoLaboral tipoLaboral) {
-		return laboralRepository.save(tipoLaboral);
+	private TipoLaboral create(@RequestBody TipoLaboralDto tipoLaboral) {
+		TipoLaboral tipoLaboralNow = new TipoLaboral();
+		tipoLaboralNow.setDescripcion(tipoLaboral.getDescripcion());
+		return laboralRepository.save(tipoLaboralNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private TipoLaboral update(@RequestBody TipoLaboral tipoLaboral,@PathVariable int id) {
+	private TipoLaboral update(@RequestBody TipoLaboralDto tipoLaboral,@PathVariable int id) {
 		TipoLaboral tipoLaboralNow = laboralRepository.findById(id).orElse(null);
 		tipoLaboralNow.setDescripcion(tipoLaboral.getDescripcion());
 		

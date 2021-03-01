@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flores.feign.clients.DatoAcademicoClientRest;
 import com.flores.feign.models.DatoAcademico;
 import com.flores.model.Especialidad;
+import com.flores.model.dto.EspecialidadDto;
 import com.flores.repository.EspecialidadRepository;
 
 @RestController
@@ -44,15 +45,18 @@ public class EspecialidadController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Especialidad create(@RequestBody Especialidad especialidad) {
-		return especialidadRepository.save(especialidad);
+	private Especialidad create(@RequestBody EspecialidadDto especialidad) {
+		Especialidad especialidadNow = new Especialidad();
+		especialidadNow.setDescripcion(especialidad.getDescripcion());
+		especialidadNow.setCentroEstudioId(especialidad.getCentroEstudioId());
+		return especialidadRepository.save(especialidadNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Especialidad update(@RequestBody Especialidad especialidad,@PathVariable int id) {
+	private Especialidad update(@RequestBody EspecialidadDto especialidad,@PathVariable int id) {
 		Especialidad especialidadNow = especialidadRepository.findById(id).orElse(null);
 		especialidadNow.setDescripcion(especialidad.getDescripcion());
-		especialidadNow.setCentroEstudio(especialidad.getCentroEstudio());
+		especialidadNow.setCentroEstudioId(especialidad.getCentroEstudioId());
 		
 		return especialidadRepository.save(especialidadNow);
 	}

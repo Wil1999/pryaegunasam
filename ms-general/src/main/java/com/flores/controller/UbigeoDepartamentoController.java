@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.UbigeoDepartamento;
+import com.flores.model.dto.UbigeoDepartamentoDto;
 import com.flores.repository.UbigeoDepartamentoRespository;
 
 @RestController
@@ -34,12 +35,14 @@ public class UbigeoDepartamentoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private UbigeoDepartamento create(@RequestBody UbigeoDepartamento ubigeoDepartamento) {
-		return departamentoRepository.save(ubigeoDepartamento);
+	private UbigeoDepartamento create(@RequestBody UbigeoDepartamentoDto ubigeoDepartamentoDto) {
+		UbigeoDepartamento ubigeDep = new UbigeoDepartamento();
+		ubigeDep.setNombre(ubigeoDepartamentoDto.getNombre());
+		return departamentoRepository.save(ubigeDep);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private UbigeoDepartamento update(@RequestBody UbigeoDepartamento ubigeoDepartamento,@PathVariable int id) {
+	private UbigeoDepartamento update(@RequestBody UbigeoDepartamentoDto ubigeoDepartamento,@PathVariable int id) {
 		UbigeoDepartamento ubigeoDepartamentoNow = departamentoRepository.findById(id).orElse(null);
 		ubigeoDepartamentoNow.setNombre(ubigeoDepartamento.getNombre());
 		

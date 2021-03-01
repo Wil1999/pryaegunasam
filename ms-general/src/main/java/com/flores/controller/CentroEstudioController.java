@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.CentroEstudio;
+import com.flores.model.dto.CentroEstudioDto;
 import com.flores.repository.CentroEstudioRepository;
 
 @RestController
@@ -34,12 +35,15 @@ public class CentroEstudioController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private CentroEstudio create(@RequestBody CentroEstudio centroEstudio) {
-		return centroEstudioRepository.save(centroEstudio);
+	private CentroEstudio create(@RequestBody CentroEstudioDto centroEstudio) {
+		CentroEstudio centroEstudioNow = new CentroEstudio();
+		centroEstudioNow.setDescripcion(centroEstudio.getDescripcion());
+		centroEstudioNow.setFlagUnasam(centroEstudio.getFlagUnasam());
+		return centroEstudioRepository.save(centroEstudioNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private CentroEstudio update(@RequestBody CentroEstudio centroEstudio,@PathVariable int id) {
+	private CentroEstudio update(@RequestBody CentroEstudioDto centroEstudio,@PathVariable int id) {
 		CentroEstudio centroEstudioNow = centroEstudioRepository.findById(id).orElse(null);
 		centroEstudioNow.setDescripcion(centroEstudio.getDescripcion());
 		centroEstudioNow.setFlagUnasam(centroEstudio.getFlagUnasam());

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Telefono;
+import com.flores.model.dto.TelefonoDto;
 import com.flores.repository.TelefonoRepository;
 
 @RestController
@@ -34,17 +35,22 @@ public class TelefonoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Telefono create(@RequestBody Telefono telefono) {
-		return telefonoRepository.save(telefono);
+	private Telefono create(@RequestBody TelefonoDto telefono) {
+		Telefono telefonoNow = new Telefono();
+		telefonoNow.setNumTelefono(telefono.getNumTelefono());
+		telefonoNow.setTipoOperadorId(telefono.getTipoOperadorId());
+		telefonoNow.setTipoTelefonoId(telefono.getTipoTelefonoId());
+		telefonoNow.setIdPersona(telefono.getIdPersona());
+		return telefonoRepository.save(telefonoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Telefono update(@RequestBody Telefono telefono,@PathVariable int id) {
+	private Telefono update(@RequestBody TelefonoDto telefono,@PathVariable int id) {
 		Telefono telefonoNow = telefonoRepository.findById(id).orElse(null);
 		telefonoNow.setNumTelefono(telefono.getNumTelefono());
-		telefonoNow.setTipoOperador(telefono.getTipoOperador());
-		telefonoNow.setTipoTelefono(telefono.getTipoTelefono());
-		telefonoNow.setPersona(telefono.getPersona());
+		telefonoNow.setTipoOperadorId(telefono.getTipoOperadorId());
+		telefonoNow.setTipoTelefonoId(telefono.getTipoTelefonoId());
+		telefonoNow.setIdPersona(telefono.getIdPersona());
 		
 		return telefonoRepository.save(telefonoNow);
 	}

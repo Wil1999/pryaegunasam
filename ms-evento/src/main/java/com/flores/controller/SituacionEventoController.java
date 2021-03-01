@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.SituacionEvento;
+import com.flores.model.dto.SituacionEventoDto;
 import com.flores.repository.SituacionEventoRepository;
 
 @RestController
@@ -34,12 +35,15 @@ public class SituacionEventoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private SituacionEvento create(@RequestBody SituacionEvento situacionEvento) {
-		return situacionEventoRepository.save(situacionEvento);
+	private SituacionEvento create(@RequestBody SituacionEventoDto situacionEvento) {
+		SituacionEvento situacionEventoNow = new SituacionEvento();
+		situacionEventoNow.setNombre(situacionEvento.getNombre());
+		situacionEventoNow.setEstado(situacionEvento.isEstado());
+		return situacionEventoRepository.save(situacionEventoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private SituacionEvento update(@RequestBody SituacionEvento situacionEvento,@PathVariable int id) {
+	private SituacionEvento update(@RequestBody SituacionEventoDto situacionEvento,@PathVariable int id) {
 		SituacionEvento situacionEventoNow = situacionEventoRepository.findById(id).orElse(null);
 		situacionEventoNow.setNombre(situacionEvento.getNombre());
 		situacionEventoNow.setEstado(situacionEvento.isEstado());

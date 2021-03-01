@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.CronogramaEvento;
+import com.flores.model.dto.CronogramaEventoDto;
 import com.flores.repository.CronogramaEventoRepository;
 
 @RestController
@@ -34,14 +35,24 @@ public class CronogramaEventoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private CronogramaEvento create(@RequestBody CronogramaEvento cronogramaEvento) {
-		return cronogramaEventoRepository.save(cronogramaEvento);
+	private CronogramaEvento create(@RequestBody CronogramaEventoDto cronogramaEvento) {
+		CronogramaEvento cronogramaEventoNow = new CronogramaEvento();
+		cronogramaEventoNow.setFecha(cronogramaEvento.getFecha());
+		cronogramaEventoNow.setIdEvento(cronogramaEvento.getIdEvento());
+		cronogramaEventoNow.setIdDiaSemana(cronogramaEvento.getIdDiaSemana());
+		cronogramaEventoNow.setCreatedAt(cronogramaEvento.getCreatedAt());
+		cronogramaEventoNow.setUpdatedAt(cronogramaEvento.getUpdatedAt());
+		cronogramaEventoNow.setRemove(cronogramaEvento.isRemove());
+		cronogramaEventoNow.setDescripcion(cronogramaEvento.getDescripcion());
+		return cronogramaEventoRepository.save(cronogramaEventoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private CronogramaEvento update(@RequestBody CronogramaEvento cronogramaEvento,@PathVariable int id) {
+	private CronogramaEvento update(@RequestBody CronogramaEventoDto cronogramaEvento,@PathVariable int id) {
 		CronogramaEvento cronogramaEventoNow = cronogramaEventoRepository.findById(id).orElse(null);
 		cronogramaEventoNow.setFecha(cronogramaEvento.getFecha());
+		cronogramaEventoNow.setIdEvento(cronogramaEvento.getIdEvento());
+		cronogramaEventoNow.setIdDiaSemana(cronogramaEvento.getIdDiaSemana());
 		cronogramaEventoNow.setCreatedAt(cronogramaEvento.getCreatedAt());
 		cronogramaEventoNow.setUpdatedAt(cronogramaEvento.getUpdatedAt());
 		cronogramaEventoNow.setRemove(cronogramaEvento.isRemove());

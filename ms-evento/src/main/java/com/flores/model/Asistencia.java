@@ -32,12 +32,18 @@ public class Asistencia {
 	@Column(name="usuario_id")
 	private int usuarioId;
 	
+	@Column(name="id_inscripcion")
+	private int idInscripcion;
+	
+	@Column(name="id_crono_evento")
+	private int idCronoEvento;
+	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="id_inscripcion")
+	@JoinColumn(name="id_inscripcion",updatable = false, insertable = false)
 	private Inscripcion inscripcion;
 	
 	@ManyToOne()
-	@JoinColumn(name="id_crono_evento")
+	@JoinColumn(name="id_crono_evento", updatable = false, insertable = false)
 	private CronogramaEvento cronogramaEvento;
 	
 
@@ -88,7 +94,21 @@ public class Asistencia {
 	public void setUsuarioId(int usuarioId) {
 		this.usuarioId = usuarioId;
 	}
-	
-	
+
+	public int getIdInscripcion() {
+		return idInscripcion;
+	}
+
+	public void setIdInscripcion(int idInscripcion) {
+		this.idInscripcion = idInscripcion;
+	}
+
+	public int getIdCronoEvento() {
+		return idCronoEvento;
+	}
+
+	public void setIdCronoEvento(int idCronoEvento) {
+		this.idCronoEvento = idCronoEvento;
+	}	
 
 }

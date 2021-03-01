@@ -30,9 +30,12 @@ public class UbigeoDistrito {
 	
 	private String nombre;
 
+	@Column(name="id_ubi_provincia")
+	private int ubigeoProvinciaId;
+	
 	@ManyToOne()
 	@JsonManagedReference
-	@JoinColumn(name="id_ubi_provincia")
+	@JoinColumn(name="id_ubi_provincia",insertable = false, updatable = false)
 	private UbigeoProvincia ubigeoProvincia;
 	
 	@JsonBackReference
@@ -82,5 +85,12 @@ public class UbigeoDistrito {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
+	public int getUbigeoProvinciaId() {
+		return ubigeoProvinciaId;
+	}
+
+	public void setUbigeoProvinciaId(int ubigeoProvinciaId) {
+		this.ubigeoProvinciaId = ubigeoProvinciaId;
+	}
 }

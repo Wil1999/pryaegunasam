@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.UbigeoProvincia;
+import com.flores.model.dto.UbigeoProvinciaDto;
 import com.flores.repository.UbigeoProvinciaRepository;
 
 @RestController
@@ -34,15 +35,18 @@ public class UbigeoProvinciaController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private UbigeoProvincia create(@RequestBody UbigeoProvincia ubigeoProvincia) {
-		return provinciaRepository.save(ubigeoProvincia);
+	private UbigeoProvincia create(@RequestBody UbigeoProvinciaDto ubigeoProvinciaDto) {
+		UbigeoProvincia ubigeoPro = new UbigeoProvincia();
+		ubigeoPro.setNombre(ubigeoProvinciaDto.getNombre());
+		ubigeoPro.setUbigeoDepartamentoId(ubigeoProvinciaDto.getUbigeoDepartamentoId());
+		return provinciaRepository.save(ubigeoPro);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private UbigeoProvincia update(@RequestBody UbigeoProvincia ubigeoProvincia,@PathVariable int id) {
+	private UbigeoProvincia update(@RequestBody UbigeoProvinciaDto ubigeoProvincia,@PathVariable int id) {
 		UbigeoProvincia ubigeoProvinciaNow = provinciaRepository.findById(id).orElse(null);
 		ubigeoProvinciaNow.setNombre(ubigeoProvincia.getNombre());
-		ubigeoProvinciaNow.setUbigeoDepartamento(ubigeoProvincia.getUbigeoDepartamento());
+		ubigeoProvinciaNow.setUbigeoDepartamentoId(ubigeoProvincia.getUbigeoDepartamentoId());
 		
 		return provinciaRepository.save(ubigeoProvinciaNow);
 	}

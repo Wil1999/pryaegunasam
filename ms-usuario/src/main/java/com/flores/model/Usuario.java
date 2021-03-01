@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="usuario",schema="gestion_usuario")
@@ -29,6 +29,7 @@ public class Usuario {
 	
 	private boolean remove;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "usuario")
 	private List<UsuarioRoles> usuarioRoles;
 	

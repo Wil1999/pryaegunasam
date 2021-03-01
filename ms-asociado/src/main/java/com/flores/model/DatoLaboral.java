@@ -99,6 +99,13 @@ public class DatoLaboral {
 	public void setPersonaId(int personaId) {
 		this.personaId = personaId;
 	}
-	
 
+	public int getTipoLaboralId() {
+		return tipoLaboralId;
+	}
+
+	public void setTipoLaboralId(int tipoLaboralId) {
+		this.tipoLaboralId = tipoLaboralId;
+	}
+	
 }

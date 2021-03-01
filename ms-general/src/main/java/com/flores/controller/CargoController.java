@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flores.feign.clients.ConsejoClientRest;
 import com.flores.feign.models.Consejo;
 import com.flores.model.Cargo;
+import com.flores.model.dto.CargoDto;
 import com.flores.repository.CargoRepository;
 
 @RestController
@@ -44,12 +45,14 @@ public class CargoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Cargo create(@RequestBody Cargo cargo) {
-		return cargoRepository.save(cargo);
+	private Cargo create(@RequestBody CargoDto cargo) {
+		Cargo cargoNow = new Cargo();
+		cargoNow.setDescripcion(cargo.getDescripcion());
+		return cargoRepository.save(cargoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Cargo update(@RequestBody Cargo cargo,@PathVariable int id) {
+	private Cargo update(@RequestBody CargoDto cargo,@PathVariable int id) {
 		Cargo cargoNow = cargoRepository.findById(id).orElse(null);
 		cargoNow.setDescripcion(cargo.getDescripcion());
 		

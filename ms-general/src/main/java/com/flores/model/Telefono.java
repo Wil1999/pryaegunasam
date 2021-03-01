@@ -30,19 +30,28 @@ public class Telefono {
 	@Column(name="num_telefono")
 	private String numTelefono;
 	
+	@Column(name="id_tipo_operador")
+	private int tipoOperadorId;
+	
+	@Column(name="id_tipo_telefono")
+	private int tipoTelefonoId;
+	
+	@Column(name="id_persona")
+	private int idPersona;
+	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_tipo_operador")
+	@JoinColumn(name="id_tipo_operador", insertable = false, updatable = false)
 	private TipoOperador tipoOperador;
 	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_tipo_telefono")
+	@JoinColumn(name="id_tipo_telefono", insertable = false, updatable = false)
 	private TipoTelefono tipoTelefono;
 	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_persona")
+	@JoinColumn(name="id_persona", insertable = false, updatable = false)
 	private Persona persona;
 	
 
@@ -84,6 +93,30 @@ public class Telefono {
 
 	public void setNumTelefono(String numTelefono) {
 		this.numTelefono = numTelefono;
+	}
+
+	public int getTipoOperadorId() {
+		return tipoOperadorId;
+	}
+
+	public void setTipoOperadorId(int tipoOperadorId) {
+		this.tipoOperadorId = tipoOperadorId;
+	}
+
+	public int getTipoTelefonoId() {
+		return tipoTelefonoId;
+	}
+
+	public void setTipoTelefonoId(int tipoTelefonoId) {
+		this.tipoTelefonoId = tipoTelefonoId;
+	}
+
+	public int getIdPersona() {
+		return idPersona;
+	}
+
+	public void setIdPersona(int idPersona) {
+		this.idPersona = idPersona;
 	}
 	
 	

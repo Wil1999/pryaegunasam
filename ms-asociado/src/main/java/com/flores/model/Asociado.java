@@ -18,6 +18,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name="asociado",schema="asociado")
 public class Asociado {
 	
+	public Asociado() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -105,5 +109,6 @@ public class Asociado {
 	public void setPersonaId(int personaId) {
 		this.personaId = personaId;
 	}
+	
 	
 }

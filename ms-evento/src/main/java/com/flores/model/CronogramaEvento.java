@@ -13,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="cronograma_evento",schema="evento")
@@ -34,19 +38,39 @@ public class CronogramaEvento {
 	
 	private String descripcion;
 	
+	@Column(name="id_evento")
+	private int idEvento;
+	
+	@Column(name="id_dia_semana")
+	private int idDiaSemana;
+	
+	@JsonBackReference
 	@OneToMany(mappedBy="cronogramaEvento")
 	private List<Asistencia> asistencia;
 
-	@OneToMany(mappedBy = "cronogramaEvento")
-	private List<Evento> evento;
+	@ManyToOne()
+	@JoinColumn(name="id_evento", insertable = false, updatable = false)
+	private Evento evento;
 	
+	@ManyToOne()
+	@JoinColumn(name="id_dia_semana", insertable = false, updatable = false)
+	private DiaSemana diaSemana;
 	
-	public List<Evento> getEvento() {
+
+	public Evento getEvento() {
 		return evento;
 	}
 
-	public void setEvento(List<Evento> evento) {
+	public void setEvento(Evento evento) {
 		this.evento = evento;
+	}
+
+	public DiaSemana getDiaSemana() {
+		return diaSemana;
+	}
+
+	public void setDiaSemana(DiaSemana diaSemana) {
+		this.diaSemana = diaSemana;
 	}
 
 	public List<Asistencia> getAsistencia() {
@@ -103,6 +127,22 @@ public class CronogramaEvento {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public int getIdEvento() {
+		return idEvento;
+	}
+
+	public void setIdEvento(int idEvento) {
+		this.idEvento = idEvento;
+	}
+
+	public int getIdDiaSemana() {
+		return idDiaSemana;
+	}
+
+	public void setIdDiaSemana(int idDiaSemana) {
+		this.idDiaSemana = idDiaSemana;
 	}
 	
 	

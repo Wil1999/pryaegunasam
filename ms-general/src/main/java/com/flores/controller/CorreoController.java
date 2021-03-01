@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Correo;
+import com.flores.model.dto.CorreoDto;
 import com.flores.repository.CorreoRepository;
 
 @RestController
@@ -34,16 +35,20 @@ public class CorreoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Correo create(@RequestBody Correo correo) {
-		return correoRepository.save(correo);
+	private Correo create(@RequestBody CorreoDto correo) {
+		Correo correoNow = new Correo();
+		correoNow.setUsuarioId(correo.getUsuarioId());
+		correoNow.setPersonaId(correo.getPersonaId());
+		correoNow.setTipoCorreoId(correo.getTipoCorreoId());
+		return correoRepository.save(correoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Correo update(@RequestBody Correo correo,@PathVariable int id) {
+	private Correo update(@RequestBody CorreoDto correo,@PathVariable int id) {
 		Correo correoNow = correoRepository.findById(id).orElse(null);
 		correoNow.setUsuarioId(correo.getUsuarioId());
-		correoNow.setPersona(correo.getPersona());
-		correoNow.setTipoCorreo(correo.getTipoCorreo());
+		correoNow.setPersonaId(correo.getPersonaId());
+		correoNow.setTipoCorreoId(correo.getTipoCorreoId());
 		
 		return correoRepository.save(correoNow);
 	}

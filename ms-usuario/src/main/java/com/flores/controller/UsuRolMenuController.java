@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.UsuRolMenu;
+import com.flores.model.dto.UsuRolMenuDto;
 import com.flores.repository.UsuRolMenuRepository;
 
 @RestController
@@ -34,15 +35,19 @@ public class UsuRolMenuController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private UsuRolMenu create(@RequestBody UsuRolMenu usuRolMenu) {
-		return rolMenuRepository.save(usuRolMenu);
+	private UsuRolMenu create(@RequestBody UsuRolMenuDto usuRolMenu) {
+		UsuRolMenu usuRolMenuNow = new UsuRolMenu();
+		usuRolMenuNow.setIdUsuarioRol(usuRolMenu.getIdUsuarioRol());
+		usuRolMenuNow.setIdMenu(usuRolMenu.getIdMenu());
+		usuRolMenuNow.setEstado(usuRolMenu.isEstado());
+		return rolMenuRepository.save(usuRolMenuNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private UsuRolMenu update(@RequestBody UsuRolMenu usuRolMenu,@PathVariable int id) {
+	private UsuRolMenu update(@RequestBody UsuRolMenuDto usuRolMenu,@PathVariable int id) {
 		UsuRolMenu usuRolMenuNow = rolMenuRepository.findById(id).orElse(null);
-		usuRolMenuNow.setUsuarioRoles(usuRolMenu.getUsuarioRoles());
-		usuRolMenuNow.setMenu(usuRolMenu.getMenu());
+		usuRolMenuNow.setIdUsuarioRol(usuRolMenu.getIdUsuarioRol());
+		usuRolMenuNow.setIdMenu(usuRolMenu.getIdMenu());
 		usuRolMenuNow.setEstado(usuRolMenu.isEstado());
 		
 		return rolMenuRepository.save(usuRolMenuNow);

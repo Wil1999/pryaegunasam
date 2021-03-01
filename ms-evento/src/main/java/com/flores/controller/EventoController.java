@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flores.feign.clients.ImagenClientRest;
 import com.flores.feign.models.Imagen;
 import com.flores.model.Evento;
+import com.flores.model.dto.EventoDto;
 import com.flores.repository.EventoRepository;
 
 @RestController
-@RequestMapping("evento")
+@RequestMapping("/evento")
 public class EventoController {
 	
 	@Autowired
@@ -49,12 +50,28 @@ public class EventoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Evento create(@RequestBody Evento evento) {
-		return eventoRepository.save(evento);
+	private Evento create(@RequestBody EventoDto evento) {
+		Evento eventoNow = new Evento();
+		eventoNow.setTitulo(evento.getTitulo());
+		eventoNow.setDescripcion(evento.getDescripcion());
+		eventoNow.setFechaInicio(evento.getFechaInicio());
+		eventoNow.setFechaTermino(evento.getFechaTermino());
+		eventoNow.setDetalle(evento.getDetalle());
+		eventoNow.setEstado(evento.isEstado());
+		eventoNow.setCosto(evento.getCosto());
+		eventoNow.setDescuentoAsociado(evento.getDescuentoAsociado());
+		eventoNow.setCreatedAt(evento.getCreatedAt());
+		eventoNow.setUpdatedAt(evento.getUpdatedAt());
+		eventoNow.setRemove(evento.isRemove());
+		eventoNow.setUsuarioId(evento.getUsuarioId());
+		eventoNow.setIdSitEvento(evento.getIdSitEvento());
+		eventoNow.setIdInstructor(evento.getIdInstructor());
+		eventoNow.setTipoEventoId(evento.getTipoEventoId());
+		return eventoRepository.save(eventoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Evento update(@RequestBody Evento evento,@PathVariable int id) {
+	private Evento update(@RequestBody EventoDto evento,@PathVariable int id) {
 		Evento eventoNow = eventoRepository.findById(id).orElse(null);
 		eventoNow.setTitulo(evento.getTitulo());
 		eventoNow.setDescripcion(evento.getDescripcion());
@@ -65,13 +82,12 @@ public class EventoController {
 		eventoNow.setCosto(evento.getCosto());
 		eventoNow.setDescuentoAsociado(evento.getDescuentoAsociado());
 		eventoNow.setCreatedAt(evento.getCreatedAt());
-		eventoNow.setUpdatedAt(eventoNow.getUpdatedAt());
+		eventoNow.setUpdatedAt(evento.getUpdatedAt());
 		eventoNow.setRemove(evento.isRemove());
 		eventoNow.setUsuarioId(evento.getUsuarioId());
-		eventoNow.setCronogramaEvento(evento.getCronogramaEvento());
-		eventoNow.setSituacionEvento(evento.getSituacionEvento());
-		eventoNow.setInstructor(evento.getInstructor());
-		eventoNow.setTipoEvento(eventoNow.getTipoEvento());
+		eventoNow.setIdSitEvento(evento.getIdSitEvento());
+		eventoNow.setIdInstructor(evento.getIdInstructor());
+		eventoNow.setTipoEventoId(evento.getTipoEventoId());
 		
 		return eventoRepository.save(eventoNow);
 	}

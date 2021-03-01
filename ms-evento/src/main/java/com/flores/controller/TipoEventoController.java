@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.TipoEvento;
+import com.flores.model.dto.TipoEventoDto;
 import com.flores.repository.TipoEventoRepository;
 
 @RestController
@@ -34,12 +35,17 @@ public class TipoEventoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private TipoEvento create(@RequestBody TipoEvento tipoEvento) {
-		return tipoEventoRepository.save(tipoEvento);
+	private TipoEvento create(@RequestBody TipoEventoDto tipoEvento) {
+		TipoEvento tipoEventoNow = new TipoEvento();
+		tipoEventoNow.setNombre(tipoEvento.getNombre());
+		tipoEventoNow.setCreatedAt(tipoEvento.getCreatedAt());
+		tipoEventoNow.setUpdatedAt(tipoEvento.getUpdatedAt());
+		tipoEventoNow.setEstado(tipoEvento.getEstado());
+		return tipoEventoRepository.save(tipoEventoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private TipoEvento update(@RequestBody TipoEvento tipoEvento,@PathVariable int id) {
+	private TipoEvento update(@RequestBody TipoEventoDto tipoEvento,@PathVariable int id) {
 		TipoEvento tipoEventoNow = tipoEventoRepository.findById(id).orElse(null);
 		tipoEventoNow.setNombre(tipoEvento.getNombre());
 		tipoEventoNow.setCreatedAt(tipoEvento.getCreatedAt());

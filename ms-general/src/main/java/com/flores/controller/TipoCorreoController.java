@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.TipoCorreo;
+import com.flores.model.dto.TipoCorreoDto;
 import com.flores.repository.TipoCorreoRepository;
 
 @RestController
@@ -34,12 +35,14 @@ public class TipoCorreoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private TipoCorreo create(@RequestBody TipoCorreo tipoCorreo) {
-		return correoRepository.save(tipoCorreo);
+	private TipoCorreo create(@RequestBody TipoCorreoDto tipoCorreo) {
+		TipoCorreo tipoCorreoNow = new TipoCorreo();
+		tipoCorreoNow.setTipo(tipoCorreo.getTipo());
+		return correoRepository.save(tipoCorreoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private TipoCorreo update(@RequestBody TipoCorreo tipoCorreo,@PathVariable int id) {
+	private TipoCorreo update(@RequestBody TipoCorreoDto tipoCorreo,@PathVariable int id) {
 		TipoCorreo tipoCorreoNow = correoRepository.findById(id).orElse(null);
 		tipoCorreoNow.setTipo(tipoCorreo.getTipo());
 		

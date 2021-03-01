@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Asistencia;
+import com.flores.model.dto.AsistenciaDto;
 import com.flores.repository.AsistenciaRepository;
 
 @RestController
@@ -34,18 +35,24 @@ public class AsistenciaController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Asistencia create(@RequestBody Asistencia asistencia) {
-		return asistenciaRepository.save(asistencia);
+	private Asistencia create(@RequestBody AsistenciaDto asistencia) {
+		Asistencia asistenciaNow = new Asistencia();
+		asistenciaNow.setIdPersonaEvento(asistencia.getIdPersonaEvento());
+		asistenciaNow.setIdCronoEvento(asistencia.getIdCronoEvento());
+		asistenciaNow.setFlagAsiste(asistencia.isFlagAsiste());
+		asistenciaNow.setUsuarioId(asistencia.getUsuarioId());
+		asistenciaNow.setIdInscripcion(asistencia.getIdInscripcion());
+		return asistenciaRepository.save(asistenciaNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Asistencia update(@RequestBody Asistencia asistencia,@PathVariable int id) {
+	private Asistencia update(@RequestBody AsistenciaDto asistencia,@PathVariable int id) {
 		Asistencia asistenciaNow = asistenciaRepository.findById(id).orElse(null);
 		asistenciaNow.setIdPersonaEvento(asistencia.getIdPersonaEvento());
-		asistenciaNow.setCronogramaEvento(asistencia.getCronogramaEvento());
+		asistenciaNow.setIdCronoEvento(asistencia.getIdCronoEvento());
 		asistenciaNow.setFlagAsiste(asistencia.isFlagAsiste());
 		asistenciaNow.setUsuarioId(asistencia.getUsuarioId());
-		asistenciaNow.setInscripcion(asistencia.getInscripcion());
+		asistenciaNow.setIdInscripcion(asistencia.getIdInscripcion());
 		
 		return asistenciaRepository.save(asistenciaNow);
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Imagen;
+import com.flores.model.dto.ImagenDto;
 import com.flores.repository.ImagenRepository;
 
 @RestController
@@ -39,23 +40,30 @@ public class ImagenController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Imagen create(@RequestBody Imagen imagen) {
+	private Imagen create(@RequestBody ImagenDto imagenDto) {
+		Imagen imagen = new Imagen();
+		imagen.setUrl(imagenDto.getUrl());
+		imagen.setNoticiaId(imagenDto.getNoticiaId());
+		imagen.setEventoId(imagenDto.getEventoId());
+		imagen.setCreatedAt(imagenDto.getCreatedAt());
+		imagen.setUpdatedAt(imagenDto.getUpdatedAt());
+		imagen.setEstado(imagenDto.getEstado());
+		imagen.setPersonaId(imagenDto.getPersonaId());
+		imagen.setRemove(imagenDto.isRemove());
 		return imagenRepository.save(imagen);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Imagen update(@RequestBody Imagen imagen,@PathVariable int id) {
+	private Imagen update(@RequestBody ImagenDto imagenDto,@PathVariable int id) {
 		Imagen imagenNow = imagenRepository.findById(id).orElse(null);
-		imagenNow.setTitulo(imagen.getTitulo());
-		imagenNow.setDescripcion(imagen.getDescripcion());
-		imagenNow.setUrl(imagen.getUrl());
-		imagenNow.setNoticia(imagen.getNoticia());
-		imagenNow.setNoticia(imagen.getNoticia());
-		imagenNow.setCreatedAt(imagen.getCreatedAt());
-		imagenNow.setUpdatedAt(imagen.getUpdatedAt());
-		imagenNow.setEstado(imagen.getEstado());
-		imagenNow.setUsuarioId(imagen.getUsuarioId());
-		imagenNow.setRemove(imagen.isRemove());
+		imagenNow.setUrl(imagenDto.getUrl());
+		imagenNow.setNoticiaId(imagenDto.getNoticiaId());
+		imagenNow.setEventoId(imagenDto.getEventoId());
+		imagenNow.setCreatedAt(imagenDto.getCreatedAt());
+		imagenNow.setUpdatedAt(imagenDto.getUpdatedAt());
+		imagenNow.setEstado(imagenDto.getEstado());
+		imagenNow.setPersonaId(imagenDto.getPersonaId());
+		imagenNow.setRemove(imagenDto.isRemove());
 		
 		return imagenRepository.save(imagenNow);
 	}

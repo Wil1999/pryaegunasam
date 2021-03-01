@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flores.feign.clients.DatoAcademicoClientRest;
 import com.flores.feign.models.DatoAcademico;
 import com.flores.model.GradoAcademico;
+import com.flores.model.dto.GradoAcademicoDto;
 import com.flores.repository.GradoAcademicoRepository;
 
 @RestController
@@ -44,12 +45,14 @@ public class GradoAcademicoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private GradoAcademico create(@RequestBody GradoAcademico gradoAcademico) {
-		return academicoRepository.save(gradoAcademico);
+	private GradoAcademico create(@RequestBody GradoAcademicoDto gradoAcademico) {
+		GradoAcademico gradoAcademicoNow = new GradoAcademico();
+		gradoAcademicoNow.setDescripcion(gradoAcademico.getDescripcion());
+		return academicoRepository.save(gradoAcademicoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private GradoAcademico update(@RequestBody GradoAcademico gradoAcademico,@PathVariable int id) {
+	private GradoAcademico update(@RequestBody GradoAcademicoDto gradoAcademico,@PathVariable int id) {
 		GradoAcademico gradoAcademicoNow = academicoRepository.findById(id).orElse(null);
 		gradoAcademicoNow.setDescripcion(gradoAcademico.getDescripcion());
 		

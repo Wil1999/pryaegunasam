@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="usu_rol_menu", schema="gestion_usuario")
 public class UsuRolMenu {
@@ -21,13 +23,21 @@ public class UsuRolMenu {
 	private int id;
 	
 	private boolean estado;
+	
+	@Column(name="id_usuario_rol")
+	private int idUsuarioRol;
+	
+	@Column(name="id_menu")
+	private int idMenu;
 
+	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_usuario_rol")
+	@JoinColumn(name="id_usuario_rol", insertable = false, updatable = false)
 	private UsuarioRoles usuarioRoles;
 	
+	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_menu")
+	@JoinColumn(name="id_menu", insertable = false, updatable = false)
 	private Menu menu;
 	
 	public UsuarioRoles getUsuarioRoles() {
@@ -61,6 +71,21 @@ public class UsuRolMenu {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-	
 
+	public int getIdUsuarioRol() {
+		return idUsuarioRol;
+	}
+
+	public void setIdUsuarioRol(int idUsuarioRol) {
+		this.idUsuarioRol = idUsuarioRol;
+	}
+
+	public int getIdMenu() {
+		return idMenu;
+	}
+
+	public void setIdMenu(int idMenu) {
+		this.idMenu = idMenu;
+	}
+	
 }

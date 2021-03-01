@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="imagen",schema="pagina")
@@ -19,11 +23,15 @@ public class Imagen {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private String titulo;
-	
-	private String descripcion;
-	
 	private String url;
+	
+	@JsonManagedReference
+	@ManyToOne()
+	@JoinColumn(name="noticia_id",insertable = false, updatable = false)
+	private Noticia noticia;
+	
+	@Column(name="noticia_id")
+	private int noticiaId;
 	
 	@Column(name="evento_id")
 	private int eventoId;
@@ -36,14 +44,10 @@ public class Imagen {
 	
 	private int estado;
 	
-	@Column(name="usuario_id")
-	private int usuarioId;
+	@Column(name="persona_id")
+	private int personaId;
 	
 	private boolean remove;
-	
-	@ManyToOne()
-	@JoinColumn(name="noticia_id")
-	private Noticia noticia;
 
 	public Noticia getNoticia() {
 		return noticia;
@@ -53,6 +57,14 @@ public class Imagen {
 		this.noticia = noticia;
 	}
 
+	public int getNoticiaId() {
+		return noticiaId;
+	}
+
+	public void setNoticiaId(int noticiaId) {
+		this.noticiaId = noticiaId;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -60,22 +72,7 @@ public class Imagen {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+	
 
 	public String getUrl() {
 		return url;
@@ -109,12 +106,12 @@ public class Imagen {
 		this.estado = estado;
 	}
 
-	public int getUsuarioId() {
-		return usuarioId;
+	public int getPersonaId() {
+		return personaId;
 	}
 
-	public void setUsuarioId(int usuarioId) {
-		this.usuarioId = usuarioId;
+	public void setPersonaId(int personaId) {
+		this.personaId = personaId;
 	}
 
 	public boolean isRemove() {

@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="instructor",schema="evento")
 public class Instructor {
@@ -23,6 +25,7 @@ public class Instructor {
 	@Column(name="id_persona")
 	private int idPersona;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "instructor")
 	private List<Evento> evento;
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.TipoTelefono;
+import com.flores.model.dto.TipoTelefonoDto;
 import com.flores.repository.TipoTelefonoRepository;
 
 @RestController
@@ -35,8 +36,10 @@ public class TipoTelefonoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private TipoTelefono create(@RequestBody TipoTelefono tipoTelefono) {
-		return tipoTelefonoRepository.save(tipoTelefono);
+	private TipoTelefono create(@RequestBody TipoTelefonoDto tipoTelefono) {
+		TipoTelefono tipoTelefonoNow = new TipoTelefono();
+		tipoTelefonoNow.setTipoTelefono(tipoTelefono.getTipoTelefono());
+		return tipoTelefonoRepository.save(tipoTelefonoNow);
 	}
 	
 	@PutMapping(path ="/{id}")

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Consejo;
 import com.flores.model.DatoAcademico;
+import com.flores.model.dto.ConsejoDto;
 import com.flores.repository.ConsejoRepository;
 
 @RestController
@@ -45,15 +46,22 @@ public class ConsejoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Consejo create(@RequestBody Consejo consejo) {
-		return consejoRepository.save(consejo);
+	private Consejo create(@RequestBody ConsejoDto consejo) {
+		Consejo consejoNow = new Consejo();
+		consejoNow.setIdPeriodo(consejo.getIdPeriodo());
+		consejoNow.setCargoId(consejo.getCargoId());
+		consejoNow.setFlagTipo(consejo.getFlagTipo());
+		consejoNow.setIdAsociado(consejo.getIdAsociado());
+		return consejoRepository.save(consejoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Consejo update(@RequestBody Consejo consejo,@PathVariable int id) {
+	private Consejo update(@RequestBody ConsejoDto consejo,@PathVariable int id) {
 		Consejo consejoNow = consejoRepository.findById(id).orElse(null);
 		consejoNow.setFlagTipo(consejo.getFlagTipo());
-		consejoNow.setAsociado(consejo.getAsociado());
+		consejoNow.setCargoId(consejo.getCargoId());
+		consejoNow.setIdAsociado(consejo.getIdAsociado());
+		consejoNow.setIdPeriodo(consejo.getIdPeriodo());
 		
 		return consejoRepository.save(consejoNow);
 	}

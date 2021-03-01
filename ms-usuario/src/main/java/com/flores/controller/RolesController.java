@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Roles;
+import com.flores.model.dto.RolesDto;
 import com.flores.repository.RolesRepository;
 
 @RestController
@@ -34,12 +35,14 @@ public class RolesController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Roles create(@RequestBody Roles roles) {
-		return rolesRepository.save(roles);
+	private Roles create(@RequestBody RolesDto roles) {
+		Roles rolesNow = new Roles();
+		rolesNow.setDescripcion(roles.getDescripcion());
+		return rolesRepository.save(rolesNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Roles update(@RequestBody Roles roles,@PathVariable int id) {
+	private Roles update(@RequestBody RolesDto roles,@PathVariable int id) {
 		Roles rolesNow = rolesRepository.findById(id).orElse(null);
 		rolesNow.setDescripcion(roles.getDescripcion());
 		

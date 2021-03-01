@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.SituacionInscripcion;
+import com.flores.model.dto.SituacionInscripcionDto;
 import com.flores.repository.SituacionInscripcionRepository;
 
 @RestController
@@ -34,12 +35,15 @@ public class SituacionInscripcionController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private SituacionInscripcion create(@RequestBody SituacionInscripcion situacionInscripcion) {
-		return situacionInscripcionRepository.save(situacionInscripcion);
+	private SituacionInscripcion create(@RequestBody SituacionInscripcionDto situacionInscripcion) {
+		SituacionInscripcion situacionInscripcionNow = new SituacionInscripcion();
+		situacionInscripcionNow.setNombre(situacionInscripcion.getNombre());
+		situacionInscripcionNow.setEstado(situacionInscripcion.isEstado());
+		return situacionInscripcionRepository.save(situacionInscripcionNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private SituacionInscripcion update(@RequestBody SituacionInscripcion situacionInscripcion,@PathVariable int id) {
+	private SituacionInscripcion update(@RequestBody SituacionInscripcionDto situacionInscripcion,@PathVariable int id) {
 		SituacionInscripcion situacionInscripcionNow = situacionInscripcionRepository.findById(id).orElse(null);
 		situacionInscripcionNow.setNombre(situacionInscripcion.getNombre());
 		situacionInscripcionNow.setEstado(situacionInscripcion.isEstado());

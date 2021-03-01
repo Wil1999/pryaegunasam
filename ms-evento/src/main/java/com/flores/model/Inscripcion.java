@@ -45,17 +45,23 @@ public class Inscripcion {
 	@Column(name="usuario_id")
 	private int usuarioId;
 	
+	@Column(name="id_situacion_insc")
+	private int idSituacionInsc;
+	
+	@Column(name="evento_id")
+	private int eventoId;
+	
 	@OneToOne(mappedBy = "inscripcion", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Asistencia asistencia;
 	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_situacion_insc")
+	@JoinColumn(name="id_situacion_insc", insertable = false,updatable = false)
 	private SituacionInscripcion situacionInscripcion;
 	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="evento_id")
+	@JoinColumn(name="evento_id", insertable = false, updatable = false)
 	private Evento evento;
 	
 	
@@ -147,7 +153,22 @@ public class Inscripcion {
 	public void setPersonaId(int personaId) {
 		this.personaId = personaId;
 	}
-	
-	
+
+	public int getIdSituacionInsc() {
+		return idSituacionInsc;
+	}
+
+	public void setIdSituacionInsc(int idSituacionInsc) {
+		this.idSituacionInsc = idSituacionInsc;
+	}
+
+	public int getEventoId() {
+		return eventoId;
+	}
+
+	public void setEventoId(int eventoId) {
+		this.eventoId = eventoId;
+	}
+
 	
 }

@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="noticia",schema="pagina")
@@ -22,7 +25,7 @@ public class Noticia {
 	
 	private String titulo;
 	
-	private String html;
+	private String descripcion;
 	
 	private boolean estado;
 	
@@ -41,7 +44,8 @@ public class Noticia {
 	private int usuarioId;
 	
 	private boolean remove;
-
+	
+	@JsonBackReference
 	@OneToMany(mappedBy = "noticia")
 	private List<Imagen> imagen;
 	
@@ -70,12 +74,13 @@ public class Noticia {
 		this.titulo = titulo;
 	}
 
-	public String getHtml() {
-		return html;
+
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setHtml(String html) {
-		this.html = html;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public boolean isEstado() {

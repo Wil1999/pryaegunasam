@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.TipoOperador;
+import com.flores.model.dto.TipoOperadorDto;
 import com.flores.repository.TipoOperadorRepository;
 
 @RestController
@@ -34,8 +35,10 @@ public class TipoOperadorController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private TipoOperador create(@RequestBody TipoOperador tipoOperador) {
-		return operadorRepository.save(tipoOperador);
+	private TipoOperador create(@RequestBody TipoOperadorDto tipoOperador) {
+		TipoOperador tipoOperadorNow = new TipoOperador();
+		tipoOperadorNow.setOperador(tipoOperador.getOperador());
+		return operadorRepository.save(tipoOperadorNow);
 	}
 	
 	@PutMapping(path ="/{id}")

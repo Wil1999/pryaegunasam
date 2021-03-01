@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flores.feign.clients.ConsejoClientRest;
 import com.flores.feign.models.Consejo;
 import com.flores.model.Periodo;
+import com.flores.model.dto.PeriodoDto;
 import com.flores.repository.PeriodoRepository;
 
 @RestController
@@ -44,12 +45,14 @@ public class PeriodoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Periodo create(@RequestBody Periodo periodo) {
-		return periodoRepository.save(periodo);
+	private Periodo create(@RequestBody PeriodoDto periodo) {
+		Periodo periodoNow = new Periodo();
+		periodoNow.setAnio(periodo.getAnio());
+		return periodoRepository.save(periodoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Periodo update(@RequestBody Periodo periodo,@PathVariable int id) {
+	private Periodo update(@RequestBody PeriodoDto periodo,@PathVariable int id) {
 		Periodo periodoNow = periodoRepository.findById(id).orElse(null);
 		periodoNow.setAnio(periodo.getAnio());
 		

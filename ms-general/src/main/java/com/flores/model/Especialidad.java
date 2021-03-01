@@ -3,6 +3,7 @@ package com.flores.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,9 +33,12 @@ public class Especialidad {
 	
 	private String descripcion;
 	
+	@Column(name="centro_estudio_id")
+	private int centroEstudioId;
+	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="centro_estudio_id")
+	@JoinColumn(name="centro_estudio_id", insertable = false, updatable = false)
 	private CentroEstudio centroEstudio;
 
 	
@@ -69,5 +73,13 @@ public class Especialidad {
 	public void setDatoAcademico(List<DatoAcademico> datoAcademico) {
 		this.datoAcademico = datoAcademico;
 	}
-	
+
+	public int getCentroEstudioId() {
+		return centroEstudioId;
+	}
+
+	public void setCentroEstudioId(int centroEstudioId) {
+		this.centroEstudioId = centroEstudioId;
+	}
+
 }

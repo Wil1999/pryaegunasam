@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="tipo_evento", schema="evento")
 public class TipoEvento {
@@ -31,6 +33,7 @@ public class TipoEvento {
 	
 	private int estado;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "tipoEvento")
 	private List<Evento> evento;
 	

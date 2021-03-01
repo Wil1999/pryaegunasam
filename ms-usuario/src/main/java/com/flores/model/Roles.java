@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="roles", schema="gestion_usuario")
 public class Roles {
@@ -21,6 +23,7 @@ public class Roles {
 	
 	private String descripcion;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "roles")
 	private List<UsuarioRoles> usuarioRoles;
 	

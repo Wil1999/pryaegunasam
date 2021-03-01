@@ -61,6 +61,10 @@ public class DatoLaboralController {
 	@PutMapping(path ="/{id}")
 	private DatoLaboral update(@RequestBody DatoLaboral datoLaboral,@PathVariable int id) {
 		DatoLaboral datoLaboralNow = datoLaboralRepository.findById(id).orElse(null);
+		datoLaboralNow.setInstitucionId(datoLaboral.getInstitucionId());
+		datoLaboralNow.setSectorId(datoLaboral.getSectorId());
+		datoLaboralNow.setTipoLaboralId(datoLaboral.getTipoLaboralId());
+		datoLaboralNow.setPersonaId(datoLaboral.getPersonaId());
 		datoLaboralNow.setCargo(datoLaboral.getCargo());
 		datoLaboralNow.setEstado(datoLaboral.getEstado());
 		datoLaboralNow.setRemove(datoLaboral.getRemove());

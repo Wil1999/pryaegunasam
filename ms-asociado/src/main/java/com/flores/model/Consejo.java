@@ -29,9 +29,12 @@ public class Consejo {
 	@Column(name="flag_tipo")
 	private String flagTipo;
 	
+	@Column(name="id_asociado")
+	private int idAsociado;
+	
 	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_asociado")
+	@JoinColumn(name="id_asociado",insertable = false, updatable = false)
 	private Asociado asociado;
 	
 
@@ -74,7 +77,13 @@ public class Consejo {
 	public void setCargoId(int cargoId) {
 		this.cargoId = cargoId;
 	}
-	
-	
+
+	public int getIdAsociado() {
+		return idAsociado;
+	}
+
+	public void setIdAsociado(int idAsociado) {
+		this.idAsociado = idAsociado;
+	}
 
 }

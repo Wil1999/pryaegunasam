@@ -3,9 +3,10 @@ package com.flores.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import com.flores.feign.models.Inscripcion;
 import com.flores.feign.models.Instructor;
 import com.flores.feign.models.Usuario;
 import com.flores.model.Persona;
+import com.flores.model.dto.PersonaDto;
 import com.flores.repository.PersonaRepository;
 
 @RestController
@@ -55,6 +57,24 @@ public class PersonaController {
 	@Autowired
 	private InstructorClientRest instructorClientRest; 
 	
+	
+	//Obtener datos de persona por DNI 
+	@GetMapping(path="/{dni}")
+	private Optional<Persona> obtenerPersonaPorDni(@PathVariable String dni){
+		return personaRepository.findByDni(dni);
+	}
+	
+	//Validacion de existencia de persona unica
+	@PostMapping(path="/personaUnica")
+	private ResponseEntity<String> validacionPersonaUnica(@RequestBody PersonaDto personaDto){
+		List<Persona> personas = personaRepository.findAll();
+		for(Persona p : personas) {
+			if(personaDto.getDni().equals(p.getDni())) {
+				return new ResponseEntity<String>("VALIDACION PERSONA INCORRECTA",HttpStatus.CONFLICT);
+			}
+		}
+		return new ResponseEntity<String>("VALIDACION PERSONA CORRECTA",HttpStatus.ACCEPTED);
+	}
 	
 	
 	@GetMapping(path = "/listUsuarios")
@@ -135,22 +155,30 @@ public class PersonaController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Persona create(@RequestBody Persona persona) {
-		return personaRepository.save(persona);
+	private Persona create(@RequestBody PersonaDto persona) {
+		Persona personaNow = new Persona();
+		personaNow.setDni(persona.getDni());
+		personaNow.setApellidoPaterno(persona.getApellidoPaterno());
+		personaNow.setApellidoMaterno(persona.getApellidoMaterno());
+		personaNow.setNombre(persona.getNombre());
+		personaNow.setUbigeoDistritoNacId(persona.getUbigeoDistritoNacId());
+		personaNow.setUbigeoDistritoDomId(persona.getUbigeoDistritoDomId());
+		personaNow.setDireccion(persona.getDireccion());
+		personaNow.setFechaNacimiento(persona.getFechaNacimiento());
+		return personaRepository.save(personaNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Persona update(@RequestBody Persona persona,@PathVariable int id) {
+	private Persona update(@RequestBody PersonaDto persona,@PathVariable int id) {
 		Persona personaNow = personaRepository.findById(id).orElse(null);
 		personaNow.setDni(persona.getDni());
 		personaNow.setApellidoPaterno(persona.getApellidoPaterno());
 		personaNow.setApellidoMaterno(persona.getApellidoMaterno());
 		personaNow.setNombre(persona.getNombre());
-		personaNow.setUbigeoDistritoNac(persona.getUbigeoDistritoNac());
-		personaNow.setUbigeoDistritoDom(persona.getUbigeoDistritoDom());
+		personaNow.setUbigeoDistritoNacId(persona.getUbigeoDistritoNacId());
+		personaNow.setUbigeoDistritoDomId(persona.getUbigeoDistritoDomId());
 		personaNow.setDireccion(persona.getDireccion());
 		personaNow.setFechaNacimiento(persona.getFechaNacimiento());
-		personaNow.setTelefono(persona.getTelefono());
 		
 		return personaRepository.save(personaNow);
 	}

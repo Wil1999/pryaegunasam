@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.flores.feign.models.Imagen;
 
 @Entity
@@ -58,23 +60,40 @@ public class Evento {
 	@Column(name="usuario_id")
 	private int usuarioId;
 	
+	
+	@Column(name="tipo_evento_id")
+	private int tipoEventoId;
+	
+	@Column(name="id_sit_evento")
+	private int idSitEvento;
+	
+	@Column(name="id_instructor")
+	private int idInstructor;
+	
+	
+	@JsonBackReference
 	@OneToMany(mappedBy = "evento")
 	private List<Inscripcion> inscripcion;
 	
-	@ManyToOne()
-	@JoinColumn(name="id_crono_evento")
-	private CronogramaEvento cronogramaEvento;
 	
+	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="tipo_evento_id")
+	@JoinColumn(name="tipo_evento_id", insertable = false, updatable = false)
 	private TipoEvento tipoEvento;
 	
+	@JsonBackReference
+	@OneToMany(mappedBy = "evento")
+	private List<CronogramaEvento> cronogramaEvento;
+	
+	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_sit_evento")
+	@JoinColumn(name="id_sit_evento", insertable = false, updatable = false)
 	private SituacionEvento situacionEvento;
 	
+	
+	@JsonManagedReference
 	@ManyToOne()
-	@JoinColumn(name="id_instructor")
+	@JoinColumn(name="id_instructor", insertable = false, updatable = false)
 	private Instructor instructor;
 
 	public List<Inscripcion> getInscripcion() {
@@ -85,13 +104,6 @@ public class Evento {
 		this.inscripcion = inscripcion;
 	}
 
-	public CronogramaEvento getCronogramaEvento() {
-		return cronogramaEvento;
-	}
-
-	public void setCronogramaEvento(CronogramaEvento cronogramaEvento) {
-		this.cronogramaEvento = cronogramaEvento;
-	}
 
 	public SituacionEvento getSituacionEvento() {
 		return situacionEvento;
@@ -229,4 +241,40 @@ public class Evento {
 	public void setImagen(List<Imagen> imagen) {
 		this.imagen = imagen;
 	}
+
+
+	public int getTipoEventoId() {
+		return tipoEventoId;
+	}
+
+	public void setTipoEventoId(int tipoEventoId) {
+		this.tipoEventoId = tipoEventoId;
+	}
+
+	public int getIdSitEvento() {
+		return idSitEvento;
+	}
+
+	public void setIdSitEvento(int idSitEvento) {
+		this.idSitEvento = idSitEvento;
+	}
+
+	public int getIdInstructor() {
+		return idInstructor;
+	}
+
+	public void setIdInstructor(int idInstructor) {
+		this.idInstructor = idInstructor;
+	}
+
+	public List<CronogramaEvento> getCronogramaEvento() {
+		return cronogramaEvento;
+	}
+
+	public void setCronogramaEvento(List<CronogramaEvento> cronogramaEvento) {
+		this.cronogramaEvento = cronogramaEvento;
+	}
+	
+	
+
 }

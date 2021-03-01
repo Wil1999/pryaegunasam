@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.Asociado;
+import com.flores.model.dto.AsociadoDto;
 import com.flores.repository.AsociadoRepository;
 
 @RestController
@@ -39,14 +40,22 @@ public class AsociadoController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private Asociado create(@RequestBody Asociado asociado) {
-		return asociadoRepository.save(asociado);
+	private Asociado create(@RequestBody AsociadoDto asociado) {
+		Asociado asociadoNow = new Asociado();
+		asociadoNow.setNumero(asociado.getNumero());
+		asociadoNow.setPersonaId(asociado.getPersonaId());
+		asociadoNow.setFechaIncorporacion(asociado.getFechaIncorporacion());
+		asociadoNow.setEstado(asociado.isEstado());
+		asociadoNow.setRemove(asociado.isRemove());
+		asociadoNow.setUsuarioId(asociado.getUsuarioId());
+		return asociadoRepository.save(asociadoNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private Asociado update(@RequestBody Asociado asociado,@PathVariable int id) {
+	private Asociado update(@RequestBody AsociadoDto asociado,@PathVariable int id) {
 		Asociado asociadoNow = asociadoRepository.findById(id).orElse(null);
 		asociadoNow.setNumero(asociado.getNumero());
+		asociadoNow.setPersonaId(asociado.getPersonaId());
 		asociadoNow.setFechaIncorporacion(asociado.getFechaIncorporacion());
 		asociadoNow.setEstado(asociado.isEstado());
 		asociadoNow.setRemove(asociado.isRemove());

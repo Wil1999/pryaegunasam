@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flores.model.UsuarioRoles;
+import com.flores.model.dto.UsuarioRolesDto;
 import com.flores.repository.UsuarioRolesRepository;
 
 @RestController
@@ -34,15 +35,18 @@ public class UsuarioRolesController {
 	}
 	
 	@PostMapping(path="/nuevo")
-	private UsuarioRoles create(@RequestBody UsuarioRoles usuarioRoles) {
-		return usuarioRolesRepository.save(usuarioRoles);
+	private UsuarioRoles create(@RequestBody UsuarioRolesDto usuarioRoles) {
+		UsuarioRoles usuarioRolesNow = new UsuarioRoles();
+		usuarioRolesNow.setIdRoles(usuarioRoles.getIdRoles());
+		usuarioRolesNow.setIdUsuario(usuarioRoles.getIdUsuario());
+		return usuarioRolesRepository.save(usuarioRolesNow);
 	}
 	
 	@PutMapping(path ="/{id}")
-	private UsuarioRoles update(@RequestBody UsuarioRoles usuarioRoles,@PathVariable int id) {
+	private UsuarioRoles update(@RequestBody UsuarioRolesDto usuarioRoles,@PathVariable int id) {
 		UsuarioRoles usuarioRolesNow = usuarioRolesRepository.findById(id).orElse(null);
-		usuarioRolesNow.setRoles(usuarioRoles.getRoles());
-		usuarioRolesNow.setUsuario(usuarioRoles.getUsuario());
+		usuarioRolesNow.setIdRoles(usuarioRoles.getIdRoles());
+		usuarioRolesNow.setIdUsuario(usuarioRoles.getIdUsuario());
 		
 		return usuarioRolesRepository.save(usuarioRolesNow);
 	}

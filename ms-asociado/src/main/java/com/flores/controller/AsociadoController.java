@@ -1,5 +1,6 @@
 package com.flores.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class AsociadoController {
 		Asociado asociadoNow = new Asociado();
 		asociadoNow.setNumero(asociado.getNumero());
 		asociadoNow.setPersonaId(asociado.getPersonaId());
-		asociadoNow.setFechaIncorporacion(asociado.getFechaIncorporacion());
+		asociadoNow.setFechaIncorporacion(new Date());
 		asociadoNow.setEstado(asociado.isEstado());
 		asociadoNow.setRemove(asociado.isRemove());
 		asociadoNow.setUsuarioId(asociado.getUsuarioId());
@@ -56,11 +57,9 @@ public class AsociadoController {
 		Asociado asociadoNow = asociadoRepository.findById(id).orElse(null);
 		asociadoNow.setNumero(asociado.getNumero());
 		asociadoNow.setPersonaId(asociado.getPersonaId());
-		asociadoNow.setFechaIncorporacion(asociado.getFechaIncorporacion());
 		asociadoNow.setEstado(asociado.isEstado());
 		asociadoNow.setRemove(asociado.isRemove());
 		asociadoNow.setUsuarioId(asociado.getUsuarioId());
-		
 		return asociadoRepository.save(asociadoNow);
 	}
 	

@@ -60,8 +60,31 @@ public class PersonaController {
 	
 	//Obtener datos de persona por DNI 
 	@GetMapping(path="/{dni}")
-	private Optional<Persona> obtenerPersonaPorDni(@PathVariable String dni){
-		return personaRepository.findByDni(dni);
+	private Persona obtenerPersonaPorDni(@PathVariable String dni){
+		Persona p = personaRepository.findByDni(dni).orElse(null);
+		
+		List<Usuario> dato = new ArrayList<Usuario>();
+		dato = usuclienteRest.buscarPorId(p.getId()).orElse(null);
+		p.setUsuario(dato);
+		
+		List<Instructor> dato1 = instructorClientRest.listByPersona(p.getId()).orElse(null);
+		p.setInstructor(dato1);
+		
+		List<Inscripcion> dato2 = inscripcionClientRest.listByPersona(p.getId()).orElse(null);
+		p.setInscripcion(dato2);
+		
+		List<Asociado> dato3 = asociadoClientRest.listbyPersona(p.getId()).orElse(null);
+		p.setAsociado(dato3);
+		
+		List<DatoAcademico> dato4 = new ArrayList<DatoAcademico>();
+		dato4 = academicoClientRest.listbyPersona(p.getId()).orElse(null);
+		p.setDatoAcademico(dato4);
+		
+		List<DatoLaboral> dato5 = new ArrayList<DatoLaboral>();
+		dato5 = laboclienteRest.listPer(p.getId()).orElse(null);
+		p.setDatoLaboral(dato5);
+		
+		return p;
 	}
 	
 	//Validacion de existencia de persona unica
@@ -76,77 +99,103 @@ public class PersonaController {
 		return new ResponseEntity<String>("VALIDACION PERSONA CORRECTA",HttpStatus.ACCEPTED);
 	}
 	
+	//@GetMapping(path = "/listUsuarios")
+	//private List<Persona> listUsuarios() {
+//	//	List<Usuario> usuPer = new ArrayList<Usuario>();
+	//	List<Persona> personas = personaRepository.findAll();
+//	//	List<Usuario> usuarios = clienteRest.listar();
+	//	for (Persona p : personas) {
+//
+	//		List<Usuario> dato = new ArrayList<Usuario>();
+		//	dato = usuclienteRest.buscarPorId(p.getId()).orElse(null);
+			//p.setUsuario(dato);
+			
+	//	}
+	//	return personas;
+	//}	
 	
-	@GetMapping(path = "/listUsuarios")
-	private List<Persona> listUsuarios() {
-//		List<Usuario> usuPer = new ArrayList<Usuario>();
-		List<Persona> personas = personaRepository.findAll();
-//		List<Usuario> usuarios = clienteRest.listar();
-		for (Persona p : personas) {
-
+	//@GetMapping(path= "/listDatoLab")
+	//private List<Persona> listDatoLab(){
+	//	List<Persona> persona = personaRepository.findAll();
+	//	for (Persona p: persona) {
+	//		List<DatoLaboral> dato = new ArrayList<DatoLaboral>();
+	//		dato = laboclienteRest.listPer(p.getId()).orElse(null);
+	//		p.setDatoLaboral(dato);
+	//	}
+	//	return persona;
+	//}
+	
+	//@GetMapping("/listDatoAcad")
+	//private List<Persona> listDatoAcademico(){
+	//	List<Persona> persona = personaRepository.findAll();
+	//	for (Persona p: persona) {
+	//		List<DatoAcademico> dato = new ArrayList<DatoAcademico>();
+	//		dato = academicoClientRest.listbyPersona(p.getId()).orElse(null);
+	//		p.setDatoAcademico(dato);
+	//	}
+	//	return persona;
+	//}
+	
+	//@GetMapping("/listAsoc")
+	//private List<Persona> listAsociado(){
+	//	List<Persona> persona = personaRepository.findAll();
+	//	for (Persona p: persona) {
+	//		List<Asociado> dato = asociadoClientRest.listbyPersona(p.getId()).orElse(null);
+	//		p.setAsociado(dato);
+	//	}
+	//	return persona;
+	//}
+	
+	//@GetMapping("/listInsc")
+	//private List<Persona> listInscripcion(){
+	//	List<Persona> persona = personaRepository.findAll();
+	//	for (Persona p: persona) {
+	//		List<Inscripcion> dato = inscripcionClientRest.listByPersona(p.getId()).orElse(null);
+	//		p.setInscripcion(dato);
+	//	}
+	//	return persona;
+	//}
+	
+	//@GetMapping("/listInstrutor")
+	//private List<Persona> listInstructor(){
+	//	List<Persona> persona = personaRepository.findAll();
+	//	for (Persona p: persona) {
+	//		List<Instructor> dato = instructorClientRest.listByPersona(p.getId()).orElse(null);
+	//		p.setInstructor(dato);
+	//	}
+	//	return persona;
+	//}
+	@GetMapping(path="/listar")
+	public List<Persona> listar(){
+		return personaRepository.findAll();
+	}
+	
+	@GetMapping(path = "/listarAll")
+	public List<Persona> listarAll() {
+		List<Persona> persona = personaRepository.findAll();
+		for (Persona p : persona){
 			List<Usuario> dato = new ArrayList<Usuario>();
 			dato = usuclienteRest.buscarPorId(p.getId()).orElse(null);
 			p.setUsuario(dato);
 			
-		}
-		return personas;
-	}	
-	
-	@GetMapping(path= "/listDatoLab")
-	private List<Persona> listDatoLab(){
-		List<Persona> persona = personaRepository.findAll();
-		for (Persona p: persona) {
-			List<DatoLaboral> dato = new ArrayList<DatoLaboral>();
-			dato = laboclienteRest.listPer(p.getId()).orElse(null);
-			p.setDatoLaboral(dato);
-		}
-		return persona;
-	}
-	
-	@GetMapping("/listDatoAcad")
-	private List<Persona> listDatoAcademico(){
-		List<Persona> persona = personaRepository.findAll();
-		for (Persona p: persona) {
-			List<DatoAcademico> dato = new ArrayList<DatoAcademico>();
-			dato = academicoClientRest.listbyPersona(p.getId()).orElse(null);
-			p.setDatoAcademico(dato);
+			List<Instructor> dato1 = instructorClientRest.listByPersona(p.getId()).orElse(null);
+			p.setInstructor(dato1);
+			
+			List<Inscripcion> dato2 = inscripcionClientRest.listByPersona(p.getId()).orElse(null);
+			p.setInscripcion(dato2);
+			
+			List<Asociado> dato3 = asociadoClientRest.listbyPersona(p.getId()).orElse(null);
+			p.setAsociado(dato3);
+			
+			List<DatoAcademico> dato4 = new ArrayList<DatoAcademico>();
+			dato4 = academicoClientRest.listbyPersona(p.getId()).orElse(null);
+			p.setDatoAcademico(dato4);
+			
+			List<DatoLaboral> dato5 = new ArrayList<DatoLaboral>();
+			dato5 = laboclienteRest.listPer(p.getId()).orElse(null);
+			p.setDatoLaboral(dato5);
 		}
 		return persona;
-	}
-	
-	@GetMapping("/listAsoc")
-	private List<Persona> listAsociado(){
-		List<Persona> persona = personaRepository.findAll();
-		for (Persona p: persona) {
-			List<Asociado> dato = asociadoClientRest.listbyPersona(p.getId()).orElse(null);
-			p.setAsociado(dato);
-		}
-		return persona;
-	}
-	
-	@GetMapping("/listInsc")
-	private List<Persona> listInscripcion(){
-		List<Persona> persona = personaRepository.findAll();
-		for (Persona p: persona) {
-			List<Inscripcion> dato = inscripcionClientRest.listByPersona(p.getId()).orElse(null);
-			p.setInscripcion(dato);
-		}
-		return persona;
-	}
-	
-	@GetMapping("/listInstrutor")
-	private List<Persona> listInstructor(){
-		List<Persona> persona = personaRepository.findAll();
-		for (Persona p: persona) {
-			List<Instructor> dato = instructorClientRest.listByPersona(p.getId()).orElse(null);
-			p.setInstructor(dato);
-		}
-		return persona;
-	}
-	
-	@GetMapping(path = "/listar")
-	public List<Persona> listar() {
-		return personaRepository.findAll();
 	}
 	
 	@GetMapping(path = "/{id}")

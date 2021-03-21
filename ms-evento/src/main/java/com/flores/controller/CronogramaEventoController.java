@@ -1,7 +1,14 @@
 package com.flores.controller;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +29,27 @@ import com.flores.repository.CronogramaEventoRepository;
 public class CronogramaEventoController {
 
 	@Autowired
+	private EntityManager em;
+	
+	@Autowired
 	private CronogramaEventoRepository cronogramaEventoRepository;
+	
+	//Obtener cronograma segun tipo evento
+	@GetMapping(path="/tipoEvento/{tipoEvento}")
+	private List<CronogramaEventoDto> ListarSegunTipoEvento(@PathVariable String tipoEvento){
+		Query sql = em.createNativeQuery("select ce.id, ce.fecha,ce.created_at, ce.updated_at,ce.remove,ce.descripcion,ce.id_evento,ce.id_dia_semana from evento.cronograma_evento ce\r\n"
+				+ "inner join evento.evento e on ce.id_evento = e.id\r\n"
+				+ "inner join evento.tipo_evento t on e.tipo_evento_id = t.id and t.nombre = ?");
+		sql.setParameter(1, tipoEvento);
+		List<CronogramaEventoDto> listaCronogramaEvento =  new ArrayList<CronogramaEventoDto>();
+		List<Object[]> result = sql.getResultList();
+		for(Object[] r : result) {
+			CronogramaEventoDto data = new CronogramaEventoDto(((Integer) r[0]).intValue(),(Date) r[1],Timestamp.from(((Date) r[2]).toInstant()),Timestamp.from(((Date) r[3]).toInstant()),(Boolean) r[4],String.valueOf(r[5]),((Integer) r[6]).intValue(),((Integer) r[7]).intValue());
+			listaCronogramaEvento.add(data);
+		}
+		return listaCronogramaEvento;
+	}
+	//
 	
 	@GetMapping("/listar")
 	private List<CronogramaEvento> show(){

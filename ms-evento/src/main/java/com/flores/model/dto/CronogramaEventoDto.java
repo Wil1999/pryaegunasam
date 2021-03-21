@@ -1,13 +1,32 @@
 package com.flores.model.dto;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.flores.model.CronogramaEvento;
+
 public class CronogramaEventoDto {
+
 	
+	
+	public CronogramaEventoDto(int id, Date fecha, Timestamp createdAt, Timestamp updatedAt, boolean remove,
+			String descripcion, int idEvento, int idDiaSemana) {
+		super();
+		this.id = id;
+		this.fecha = fecha;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.remove = remove;
+		this.descripcion = descripcion;
+		this.idEvento = idEvento;
+		this.idDiaSemana = idDiaSemana;
+	}
+
 	private int id;
 	
 	private Date fecha;

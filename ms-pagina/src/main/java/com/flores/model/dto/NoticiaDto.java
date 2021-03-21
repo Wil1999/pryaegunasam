@@ -7,7 +7,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 public class NoticiaDto {
-private int id;
+	private int id;
 	
 	private String titulo;
 	
@@ -17,7 +17,7 @@ private int id;
 	
 	private Date fechaPublicacion;
 	
-	private String autor;
+	private int idAutor;
 	
 	@Temporal(TemporalType.DATE)
 	private Timestamp createdAt;
@@ -69,12 +69,12 @@ private int id;
 		this.fechaPublicacion = fechaPublicacion;
 	}
 
-	public String getAutor() {
-		return autor;
+	public int getIdAutor() {
+		return idAutor;
 	}
 
-	public void setAutor(String autor) {
-		this.autor = autor;
+	public void setIdAutor(int idAutor) {
+		this.idAutor = idAutor;
 	}
 
 	public Timestamp getCreatedAt() {

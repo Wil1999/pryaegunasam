@@ -56,6 +56,8 @@ public class DatoAcademicoController {
 	@PutMapping(path ="/{id}")
 	private DatoAcademico update(@RequestBody DatoAcademico datoAcademico,@PathVariable int id) {
 		DatoAcademico datoAcademicoNow = academicoRepository.findById(id).orElse(null);
+		datoAcademicoNow.setGradoAcadId(datoAcademico.getGradoAcadId());
+		datoAcademicoNow.setEspecialidadId(datoAcademico.getEspecialidadId());
 		datoAcademicoNow.setFechaEmision(datoAcademico.getFechaEmision());
 		datoAcademicoNow.setFechaTermino(datoAcademico.getFechaTermino());
 		datoAcademicoNow.setRemove(datoAcademico.getRemove());

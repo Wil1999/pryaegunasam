@@ -9,11 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="noticia",schema="pagina")
@@ -31,8 +34,7 @@ public class Noticia {
 	
 	@Column(name="fecha_publicacion")
 	private Date fechaPublicacion;
-	
-	private String autor;
+
 	
 	@Column(name="created_at")
 	private Timestamp createdAt;
@@ -45,10 +47,18 @@ public class Noticia {
 	
 	private boolean remove;
 	
+	@Column(name="id_autor")
+	private int idAutor;
+	
 	@JsonBackReference
 	@OneToMany(mappedBy = "noticia")
 	private List<Imagen> imagen;
+
 	
+	@JsonManagedReference
+	@ManyToOne()
+	@JoinColumn(name="id_autor",insertable = false, updatable = false)
+	private Autor autor;
 	
 	public List<Imagen> getImagen() {
 		return imagen;
@@ -99,14 +109,6 @@ public class Noticia {
 		this.fechaPublicacion = fechaPublicacion;
 	}
 
-	public String getAutor() {
-		return autor;
-	}
-
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
-
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
@@ -138,4 +140,23 @@ public class Noticia {
 	public void setRemove(boolean remove) {
 		this.remove = remove;
 	}
+
+	public Autor getAutor() {
+		return autor;
+	}
+
+	public void setAutor(Autor autor) {
+		this.autor = autor;
+	}
+
+	public int getIdAutor() {
+		return idAutor;
+	}
+
+	public void setIdAutor(int idAutor) {
+		this.idAutor = idAutor;
+	}
+	
+	
+	
 }

@@ -3,8 +3,6 @@ package com.flores.model.dto;
 
 public class UsuarioDto {
 	
-	private int id;
-	
 	private String userName;
 	
 	private String pass;
@@ -14,14 +12,6 @@ public class UsuarioDto {
 	private boolean remove;
 	
 	private int idPersona;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getUserName() {
 		return userName;

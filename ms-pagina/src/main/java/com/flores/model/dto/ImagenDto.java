@@ -7,33 +7,15 @@ import javax.persistence.TemporalType;
 
 public class ImagenDto {
 	
-	private int id;
-	
-	private String url;
-	
 	private int noticiaId;
 	
 	private int eventoId;
-	
-	@Temporal(TemporalType.DATE)
-	private Timestamp createdAt;
-	
-	@Temporal(TemporalType.DATE)
-	private Timestamp updatedAt;
 	
 	private int estado;
 	
 	private int personaId;
 	
 	private boolean remove;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getNoticiaId() {
 		return noticiaId;
@@ -49,22 +31,6 @@ public class ImagenDto {
 
 	public void setEventoId(int eventoId) {
 		this.eventoId = eventoId;
-	}
-
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public int getEstado() {
@@ -91,12 +57,4 @@ public class ImagenDto {
 		this.remove = remove;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
 }

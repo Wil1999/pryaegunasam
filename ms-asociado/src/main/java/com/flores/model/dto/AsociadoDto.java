@@ -13,8 +13,6 @@ public class AsociadoDto {
 	
 	private int numero;
 	
-	@Temporal(TemporalType.DATE)
-	private Date fechaIncorporacion;
 	
 	private boolean estado;
 	
@@ -44,14 +42,6 @@ public class AsociadoDto {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
-	}
-
-	public Date getFechaIncorporacion() {
-		return fechaIncorporacion;
-	}
-
-	public void setFechaIncorporacion(Date fechaIncorporacion) {
-		this.fechaIncorporacion = fechaIncorporacion;
 	}
 
 	public boolean isEstado() {

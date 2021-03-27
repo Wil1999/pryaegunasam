@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -39,6 +40,7 @@ public class UsuarioRoles {
 	@JoinColumn(name="id_roles", insertable = false, updatable = false)
 	private Roles roles;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "usuarioRoles")
 	private List<UsuRolMenu> usuRolMenu;
 	

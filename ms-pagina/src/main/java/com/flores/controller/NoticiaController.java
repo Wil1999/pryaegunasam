@@ -37,6 +37,22 @@ public class NoticiaController {
 	@Autowired
 	private EntityManager em;
 	
+	// Listar por año
+	
+	@SuppressWarnings("deprecation")
+	@GetMapping("/listarNoticiaAño/{año}")
+	private List<Noticia> listarNoticiaAño(@PathVariable int año){
+		List<Noticia> response = noticiaRepository.findAll();
+		List<Noticia> result = new ArrayList<Noticia>();
+		
+		for(Noticia n:response) {
+			if(n.getFechaPublicacion().getYear() == año) {
+				result.add(n);
+			}
+		}
+		return result;
+	} 
+	
 	//
 	@GetMapping(path="/listarNoticias")
 	private List<NoticiaResponse> listarNoticias(){

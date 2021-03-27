@@ -1,5 +1,7 @@
 package com.flores.controller;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +31,17 @@ public class EventoController {
 	@Autowired
 	private ImagenClientRest imagenClientRest;
 	
-	@GetMapping("/listByImagen")
+	@GetMapping("/listByTipoActividad/{id}")
+	private List<Evento> listByTipoActividad(@PathVariable int id){
+		List<Evento> evento = eventoRepository.findAllByTipoEventoId(id);
+		for(Evento e: evento){
+			List<Imagen> dato = imagenClientRest.listByEvento(e.getId()).orElse(null);
+			e.setImagen(dato);
+		}
+		return evento;
+	}
+	
+	@GetMapping("/listAll")
 	private List<Evento> listByImagen(){
 		List<Evento> evento = eventoRepository.findAll();
 		for(Evento e: evento){
@@ -51,6 +63,7 @@ public class EventoController {
 	
 	@PostMapping(path="/nuevo")
 	private Evento create(@RequestBody EventoDto evento) {
+		Instant date = Instant.now();
 		Evento eventoNow = new Evento();
 		eventoNow.setTitulo(evento.getTitulo());
 		eventoNow.setDescripcion(evento.getDescripcion());
@@ -60,8 +73,8 @@ public class EventoController {
 		eventoNow.setEstado(evento.isEstado());
 		eventoNow.setCosto(evento.getCosto());
 		eventoNow.setDescuentoAsociado(evento.getDescuentoAsociado());
-		eventoNow.setCreatedAt(evento.getCreatedAt());
-		eventoNow.setUpdatedAt(evento.getUpdatedAt());
+		eventoNow.setCreatedAt(Timestamp.from(date));
+		eventoNow.setUpdatedAt(Timestamp.from(date));
 		eventoNow.setRemove(evento.isRemove());
 		eventoNow.setUsuarioId(evento.getUsuarioId());
 		eventoNow.setIdSitEvento(evento.getIdSitEvento());
@@ -73,6 +86,7 @@ public class EventoController {
 	@PutMapping(path ="/{id}")
 	private Evento update(@RequestBody EventoDto evento,@PathVariable int id) {
 		Evento eventoNow = eventoRepository.findById(id).orElse(null);
+		Instant date = Instant.now();
 		eventoNow.setTitulo(evento.getTitulo());
 		eventoNow.setDescripcion(evento.getDescripcion());
 		eventoNow.setFechaInicio(evento.getFechaInicio());
@@ -81,8 +95,7 @@ public class EventoController {
 		eventoNow.setEstado(evento.isEstado());
 		eventoNow.setCosto(evento.getCosto());
 		eventoNow.setDescuentoAsociado(evento.getDescuentoAsociado());
-		eventoNow.setCreatedAt(evento.getCreatedAt());
-		eventoNow.setUpdatedAt(evento.getUpdatedAt());
+		eventoNow.setUpdatedAt(Timestamp.from(date));
 		eventoNow.setRemove(evento.isRemove());
 		eventoNow.setUsuarioId(evento.getUsuarioId());
 		eventoNow.setIdSitEvento(evento.getIdSitEvento());

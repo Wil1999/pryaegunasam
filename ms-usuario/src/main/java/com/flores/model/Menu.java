@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="menu", schema="gestion_usuario")
 public class Menu {
@@ -29,6 +31,7 @@ public class Menu {
 	
 	private String url;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "menu")
 	private List<UsuRolMenu> usuRolMenu;
 	

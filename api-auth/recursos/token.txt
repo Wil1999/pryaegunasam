@@ -1,0 +1,4 @@
+https://senamhi.auth0.com/oauth/token
+head {Content-Type: application/json}
+body
+{"client_id":"Y4ENTG5SuPhLJvhQJUXOB1q21HpFAgCt","client_secret":"oFEK9U_0IMIXXcR-Lj7zs0b0NcZohUfnJcpxbqlD7_A7u_OWgTYDegsIsCnuehHT","audience":"http://localhost:8790/apipublica/","grant_type":"client_credentials"}

@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="asistencia",schema="evento")
 public class Asistencia {
@@ -38,11 +40,13 @@ public class Asistencia {
 	@Column(name="id_crono_evento")
 	private int idCronoEvento;
 	
+	@JsonManagedReference
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_inscripcion",updatable = false, insertable = false)
 	private Inscripcion inscripcion;
 	
 	@ManyToOne()
+	@JsonManagedReference
 	@JoinColumn(name="id_crono_evento", updatable = false, insertable = false)
 	private CronogramaEvento cronogramaEvento;
 	

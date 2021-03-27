@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.flores.feign.models.Instructor;
 
-@FeignClient(name="msevento", url="localhost:8014")
+@FeignClient(name="msevento", url="localhost:8012")
 @RequestMapping("/instructor")
 public interface InstructorClientRest {
 

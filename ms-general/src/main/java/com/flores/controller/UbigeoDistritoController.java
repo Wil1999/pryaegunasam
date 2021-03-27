@@ -24,6 +24,11 @@ public class UbigeoDistritoController {
 	@Autowired
 	private UbigeoDistritoRepository distritoRepository;
 	
+	@GetMapping(path="/listarPorProvincia/{id}")
+	private List<UbigeoDistrito> listarPorProvincia(@PathVariable int id){
+		return distritoRepository.findAllByUbigeoProvinciaId(id);
+	}
+	
 	@GetMapping(path = "/listar")
 	private List<UbigeoDistrito> listar() {
 		return distritoRepository.findAll();

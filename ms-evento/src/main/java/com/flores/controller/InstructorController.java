@@ -18,7 +18,7 @@ import com.flores.model.dto.InstructorDto;
 import com.flores.repository.InstructorRepository;
 
 @RestController
-@RequestMapping("/instructorevento")
+@RequestMapping("/instructor")
 public class InstructorController {
 	
 	@Autowired

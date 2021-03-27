@@ -2,6 +2,7 @@ package com.flores.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,14 +38,14 @@ public class CronogramaEventoController {
 	//Obtener cronograma segun tipo evento
 	@GetMapping(path="/tipoEvento/{tipoEvento}")
 	private List<CronogramaEventoDto> ListarSegunTipoEvento(@PathVariable String tipoEvento){
-		Query sql = em.createNativeQuery("select ce.id, ce.fecha,ce.created_at, ce.updated_at,ce.remove,ce.descripcion,ce.id_evento,ce.id_dia_semana from evento.cronograma_evento ce\r\n"
+		Query sql = em.createNativeQuery("select ce.id, ce.fecha,ce.remove,ce.descripcion,ce.id_evento,ce.id_dia_semana from evento.cronograma_evento ce\r\n"
 				+ "inner join evento.evento e on ce.id_evento = e.id\r\n"
 				+ "inner join evento.tipo_evento t on e.tipo_evento_id = t.id and t.nombre = ?");
 		sql.setParameter(1, tipoEvento);
 		List<CronogramaEventoDto> listaCronogramaEvento =  new ArrayList<CronogramaEventoDto>();
 		List<Object[]> result = sql.getResultList();
 		for(Object[] r : result) {
-			CronogramaEventoDto data = new CronogramaEventoDto(((Integer) r[0]).intValue(),(Date) r[1],Timestamp.from(((Date) r[2]).toInstant()),Timestamp.from(((Date) r[3]).toInstant()),(Boolean) r[4],String.valueOf(r[5]),((Integer) r[6]).intValue(),((Integer) r[7]).intValue());
+			CronogramaEventoDto data = new CronogramaEventoDto(((Integer) r[0]).intValue(),(Date) r[1],(Boolean) r[2],String.valueOf(r[3]),((Integer) r[4]).intValue(),((Integer) r[5]).intValue());
 			listaCronogramaEvento.add(data);
 		}
 		return listaCronogramaEvento;
@@ -64,11 +65,12 @@ public class CronogramaEventoController {
 	@PostMapping(path="/nuevo")
 	private CronogramaEvento create(@RequestBody CronogramaEventoDto cronogramaEvento) {
 		CronogramaEvento cronogramaEventoNow = new CronogramaEvento();
+		Instant date = Instant.now();
 		cronogramaEventoNow.setFecha(cronogramaEvento.getFecha());
 		cronogramaEventoNow.setIdEvento(cronogramaEvento.getIdEvento());
 		cronogramaEventoNow.setIdDiaSemana(cronogramaEvento.getIdDiaSemana());
-		cronogramaEventoNow.setCreatedAt(cronogramaEvento.getCreatedAt());
-		cronogramaEventoNow.setUpdatedAt(cronogramaEvento.getUpdatedAt());
+		cronogramaEventoNow.setCreatedAt(Timestamp.from(date));
+		cronogramaEventoNow.setUpdatedAt(Timestamp.from(date));
 		cronogramaEventoNow.setRemove(cronogramaEvento.isRemove());
 		cronogramaEventoNow.setDescripcion(cronogramaEvento.getDescripcion());
 		return cronogramaEventoRepository.save(cronogramaEventoNow);
@@ -77,11 +79,12 @@ public class CronogramaEventoController {
 	@PutMapping(path ="/{id}")
 	private CronogramaEvento update(@RequestBody CronogramaEventoDto cronogramaEvento,@PathVariable int id) {
 		CronogramaEvento cronogramaEventoNow = cronogramaEventoRepository.findById(id).orElse(null);
+		Instant date = Instant.now();
 		cronogramaEventoNow.setFecha(cronogramaEvento.getFecha());
 		cronogramaEventoNow.setIdEvento(cronogramaEvento.getIdEvento());
 		cronogramaEventoNow.setIdDiaSemana(cronogramaEvento.getIdDiaSemana());
-		cronogramaEventoNow.setCreatedAt(cronogramaEvento.getCreatedAt());
-		cronogramaEventoNow.setUpdatedAt(cronogramaEvento.getUpdatedAt());
+		cronogramaEventoNow.setCreatedAt(Timestamp.from(date));
+		cronogramaEventoNow.setUpdatedAt(Timestamp.from(date));
 		cronogramaEventoNow.setRemove(cronogramaEvento.isRemove());
 		cronogramaEventoNow.setDescripcion(cronogramaEvento.getDescripcion());
 		

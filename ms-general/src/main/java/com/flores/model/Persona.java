@@ -16,6 +16,10 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.flores.feign.models.Asociado;
 import com.flores.feign.models.DatoAcademico;
 import com.flores.feign.models.DatoLaboral;
@@ -88,6 +92,7 @@ public class Persona {
 	private List<Asociado> asociado;
 	
 	@Transient
+	@JsonBackReference
 	private List<Inscripcion> inscripcion;
 	
 	@Transient

@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -51,6 +52,7 @@ public class Inscripcion {
 	@Column(name="evento_id")
 	private int eventoId;
 	
+	@JsonBackReference
 	@OneToOne(mappedBy = "inscripcion", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Asistencia asistencia;
 	
